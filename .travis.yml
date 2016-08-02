@@ -1,5 +1,9 @@
 language: node_js
 install:
-  - npm install
+- npm install
 script:
-  - npm test
+- npm test
+deploy:
+  provider: heroku
+  api_key:
+    secure: l3Uy6clsiwFoz3YZztkRuUffEdibAPC34paws1DX0RerRjI5d/Ohw6liAI9o/yImtWYlVyNIkR+CvR6P9AtoZNQxTIKJFVPCODQsITbRRMyW9twPF/Xvth1Oi7Usc12kVc6Qu6XPkAxr8ba/nROmrXMj72GCBjH/lZVkWWsrbndITAyZc2af9sgDcSTdqnMnca5jQA7ptZpdeyaS7X4VPXZXYAvQsN3lzkbE5d48XvbPDQIdV/jab9MxL4EmEZR1OMoY5w/5Lv15c9vuRBn8tPuPf5Lw74QJIxMFXOIl0ySXtMpdXQ2qs91gujjE/dngo6oiHrxeXqQ+iVQEKFSwKQAd9Zvp1xo3ldilWShfHY9CLwtMaMmypQPTs704Lah/r07mXMp+2vKgc3qyiBSgYQAZUE8Ad0DJb+9pQCAkastD4ykzoSNnFV/8eaGInmpxxNADf7+iPBJS+LSN2hoHM30haWO7Bvcs7ov2CJCBT/ikTbuHxjRO6oVYhWLqhCRR41R4BCHeiSCqHpTEXLwWcsYVcQ4pcQwPWWb5VTs+XLzjZHn2r+yZz4WY5aqt152xnGaowpxEU9CZLBO4/RSHNaSwDl1aLt8FvWao7WgVa1SsjqERNvOZFuJ/P1ViAtORIf3WEOcHJjVmZkRAfVU9Wey0v7BnpAW0gVVlv+injJI=
