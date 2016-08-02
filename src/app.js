@@ -1,0 +1,10 @@
+import express from 'express';
+import homeController from './controllers/home';
+
+const app = express();
+
+app.get('/', homeController.get);
+
+app.listen(3000, () => {
+  console.log('Saude em Foco API running at port 3000...');
+});
