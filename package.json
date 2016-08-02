@@ -1,0 +1,34 @@
+{
+  "name": "saudeemfocoapi",
+  "version": "1.0.0",
+  "description": "Saude em foco REST API",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/app.js",
+    "build": "babel src -d dist",
+    "serve": "node dist/index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lairjr/saudeEmFocoAPI.git"
+  },
+  "keywords": [
+    "saudeEmFoco",
+    "api",
+    "saude",
+    "rest"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lairjr/saudeEmFocoAPI/issues"
+  },
+  "homepage": "https://github.com/lairjr/saudeEmFocoAPI#readme",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-2": "^6.11.0",
+    "express": "^4.14.0"
+  }
+}
