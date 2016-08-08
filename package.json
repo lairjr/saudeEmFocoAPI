@@ -14,7 +14,7 @@
     "url": "git+https://github.com/lairjr/saudeEmFocoAPI.git"
   },
   "engines": {
-    "node": "5.9.1"
+    "node": "6.x"
   },
   "keywords": [
     "saudeEmFoco",
