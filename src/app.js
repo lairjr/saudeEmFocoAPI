@@ -4,7 +4,7 @@ import homeController from './controllers/home';
 
 const app = express();
 
-mongoose.connect('mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco');
+mongoose.connect(process.env.MONGODB_URI);
 
 const occurrencesSchema = new mongoose.Schema({
   title: { type: String, required: true }
@@ -15,13 +15,16 @@ const occurrence = mongoose.model('occurrences', occurrencesSchema);
 const saveOccurrences = (req, res) => {
   const occur = new occurrence({ title: 'Teste 2' });
 
-  occur.save((error, o) => {
-    if (error) {
+  const savePromise = occur.save();
+
+  savePromise.then(
+    (o) => {
+      res.send('Saved!');
+    },
+    (e) => {
       res.send(500);
     }
-
-    res.send('Saved!');
-  });
+  );
 };
 
 app.get('/', homeController.get);
