@@ -1,7 +1,10 @@
 import express from 'express';
 import homeController from './controllers/home';
+import mongoose from 'mongoose';
 
 const app = express();
+
+mongoose.connect(process.env.MONGODB_URI);
 
 app.get('/', homeController.get);
 
