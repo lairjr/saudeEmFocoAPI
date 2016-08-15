@@ -1,7 +1,9 @@
 import occurrences from '../../src/dbcollections/occurrences';
 
 const get = (req, res) => {
-  res.json(occurrences.find());
+  occurrences.find((e, results) => {
+    res.json(results);
+  });
 };
 
 export default {

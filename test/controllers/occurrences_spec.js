@@ -10,12 +10,14 @@ describe('occurrences controller', () => {
   };
 
   beforeEach(() => {
-    sinon.stub(occurrencesDb, 'find').returns(['occurrence1', 'occurrence2']);
+    sinon.spy(occurrencesDb, 'find');
   });
 
   describe('get', () => {
     it('return database results', () => {
       occurrences.get({}, res);
+      const callback = occurrencesDb.find.getCall(0).args[0];
+      callback(null, ['occurrence1', 'occurrence2']);
 
       sinon.assert.calledWith(res.json, ['occurrence1', 'occurrence2']);
     });
