@@ -8,11 +8,9 @@ describe('home controller', () => {
     send: sinon.spy()
   };
 
-  it('sends a hello world', (done) => {
+  it('sends a hello world', () => {
     homeController.get({}, res);
 
     assert(res.send.calledWith('Hello world'));
-
-    done();
   });
 });
