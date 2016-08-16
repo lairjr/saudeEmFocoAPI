@@ -1,7 +1,7 @@
 import assert from 'assert';
 import sinon from 'sinon';
 
-import homeController from '../../src/controllers/home';
+import homeController from '../../../src/controllers/home';
 
 describe('home controller', () => {
   const res = {

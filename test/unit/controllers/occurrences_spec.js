@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import occurrencesDb from '../../src/dbcollections/occurrences';
+import occurrencesDb from '../../../src/dbcollections/occurrences';
 import sinon from 'sinon';
 
-import occurrences from '../../src/controllers/occurrences';
+import occurrences from '../../../src/controllers/occurrences';
 
 describe('occurrences controller', () => {
   const res = {

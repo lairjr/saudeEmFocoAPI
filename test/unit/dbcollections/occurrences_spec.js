@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import mongoose from 'mongoose';
 
-import occurrences from '../../src/dbcollections/occurrences';
+import occurrences from '../../../src/dbcollections/occurrences';
 
 describe('dbcollections/occurrences', () => {
   it('associates correct collection', () => {
