@@ -1,11 +1,23 @@
-import occurrences from '../../src/dbcollections/occurrences';
+const occurrencesController = (dbModel) => {
+  return {
+    get: get(dbModel),
+    post: post(dbModel)
+  };
+};
 
-const get = (req, res) => {
-  occurrences.find((e, results) => {
+const get = (dbModel) => (req, res) => {
+  dbModel.find((e, results) => {
     res.json(results);
   });
 };
 
-export default {
-  get
+const post = (dbModel) => (req, res) => {
+  const model = new dbModel(req.body);
+  const savePromise = model.save();
+
+  savePromise.then((m) => {
+    res.sendStatus(200);
+  });
 };
+
+export default occurrencesController;
