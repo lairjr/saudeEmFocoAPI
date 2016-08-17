@@ -1,18 +1,19 @@
-class OccurrencesController {
-  constructor(dbModel) {
-    this.dbModel = dbModel;
-  }
+const occurrencesController = (dbModel) => {
+  return {
+    get: get(dbModel),
+    post: post(dbModel)
+  };
+};
 
-  get(req, res) {
-    this.dbModel.find((e, results) => {
-      res.json(results);
-    });
-  }
+const get = (dbModel) => (req, res) => {
+  dbModel.find((e, results) => {
+    res.json(results);
+  });
+};
 
-  post(req, res) {
-    const model = new this.dbModel(req.body);
-    model.save();
-  }
-}
+const post = (dbModel) => (req, res) => {
+  const model = new dbModel(req.body);
+  model.save();
+};
 
-export default OccurrencesController;
+export default occurrencesController;

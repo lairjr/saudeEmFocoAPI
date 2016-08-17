@@ -1,10 +1,10 @@
 import express from 'express';
-import OccurrencesController from '../controllers/occurrences';
+import ocurrencesController from '../controllers/occurrences';
 import OccurrencesDb from '../dbcollections/occurrences';
 
 const router = express.Router();
-const occurrencesController = new OccurrencesController(OccurrencesDb);
+const controller = ocurrencesController(OccurrencesDb);
 
-router.get('/', occurrencesController.get);
+router.get('/', controller.get);
 
 export default router;
