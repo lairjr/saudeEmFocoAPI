@@ -13,10 +13,9 @@ const get = (dbModel) => (req, res) => {
 
 const post = (dbModel) => (req, res) => {
   const model = new dbModel(req.body);
-  model.save((e) => {
-    if (e) {
-      res.sendStatus(400);
-    }
+  const savePromise = model.save();
+
+  savePromise.then((m) => {
     res.sendStatus(200);
   });
 };

@@ -33,13 +33,18 @@ describe('occurrences controller', () => {
     const occurrence = {
       description: 'something creepy'
     };
-    let controller;
+
+    const fakePromise = {
+      then: sinon.spy()
+    };
 
     const returnedMock = {
-      save: sinon.spy()
+      save: sinon.stub().returns(fakePromise)
     };
 
     const occurrencesDb = sinon.stub().returns(returnedMock);
+
+    let controller;
 
     before(() => {
       controller = occurrencesController(occurrencesDb);
@@ -50,7 +55,7 @@ describe('occurrences controller', () => {
       sinon.assert.calledWith(occurrencesDb, occurrence);
       sinon.assert.called(returnedMock.save);
 
-      const callback = returnedMock.save.getCall(0).args[0];
+      const callback = fakePromise.then.getCall(0).args[0];
       callback(null);
 
       sinon.assert.calledWith(res.sendStatus, 200);
