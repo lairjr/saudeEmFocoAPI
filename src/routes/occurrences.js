@@ -6,5 +6,6 @@ const router = express.Router();
 const controller = ocurrencesController(OccurrencesDb);
 
 router.get('/', controller.get);
+router.post('/', controller.post);
 
 export default router;

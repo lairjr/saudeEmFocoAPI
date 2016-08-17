@@ -5,7 +5,8 @@ import occurrencesController from '../../../src/controllers/occurrences';
 
 describe('occurrences controller', () => {
   const res = {
-    json: sinon.spy()
+    json: sinon.spy(),
+    sendStatus: sinon.spy()
   };
 
   describe('get', () => {
@@ -48,6 +49,11 @@ describe('occurrences controller', () => {
       controller.post({ body: occurrence }, res);
       sinon.assert.calledWith(occurrencesDb, occurrence);
       sinon.assert.called(returnedMock.save);
+
+      const callback = returnedMock.save.getCall(0).args[0];
+      callback(null);
+
+      sinon.assert.calledWith(res.sendStatus, 200);
     });
   });
 });
