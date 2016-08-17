@@ -1,11 +1,18 @@
-import occurrences from '../../src/dbcollections/occurrences';
+class OccurrencesController {
+  constructor(dbModel) {
+    this.dbModel = dbModel;
+  }
 
-const get = (req, res) => {
-  occurrences.find((e, results) => {
-    res.json(results);
-  });
-};
+  get(req, res) {
+    this.dbModel.find((e, results) => {
+      res.json(results);
+    });
+  }
 
-export default {
-  get
-};
+  post(req, res) {
+    const model = new this.dbModel(req.body);
+    model.save();
+  }
+}
+
+export default OccurrencesController;
