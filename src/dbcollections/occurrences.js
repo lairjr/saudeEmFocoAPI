@@ -6,7 +6,6 @@ const occurrencesSchema = new mongoose.Schema({
   location: {
     type: {
       type: String,
-      default: 'Point',
       required: true
     },
     coordinates: [Number]
