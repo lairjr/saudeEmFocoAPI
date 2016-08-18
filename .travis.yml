@@ -2,7 +2,8 @@ language: node_js
 install:
 - npm install
 script:
-- npm test
+- npm run unit-test
+- npm run contract-test
 deploy:
   provider: heroku
   api_key:

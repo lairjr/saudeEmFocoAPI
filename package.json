@@ -8,8 +8,9 @@
     "debug": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco babel-node debug src/app.js",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
-    "test": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco mocha ./test/**/**/*.js --compilers js:babel-register",
-    "unittest": "onchange 'src/**/*.js' 'test/**/*.js' -i -- npm test"
+    "test": "onchange 'src/**/*.js' 'test/unit/**/*.js' -i -- npm run unit-test",
+    "unit-test": "mocha ./test/unit/**/*.js --compilers js:babel-register",
+    "contract-test": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco mocha ./test/contract/**/*.js --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
