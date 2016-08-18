@@ -16,8 +16,12 @@ const post = (dbModel) => (req, res) => {
   const savePromise = model.save();
 
   savePromise.then((m) => {
-    res.sendStatus(200);
-  });
+      res.sendStatus(200);
+    },
+    (e) => {
+      res.sendStatus(400);
+    }
+  );
 };
 
 export default occurrencesController;

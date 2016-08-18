@@ -13,7 +13,11 @@ describe('occurrences', () => {
     it('returns 200', (done) => {
       const data = {
         description: 'contract-test-you-can-delete',
-        status: 'ACTIVE'
+        status: 'ACTIVE',
+        location: {
+          type: 'Point',
+          coordinates:[-30.034647, -51.217658]
+        }
       };
       supertest(app).post('/occurrences').send(data).expect(200).end(done);
     });
