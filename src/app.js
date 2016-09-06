@@ -3,6 +3,7 @@ import express from 'express';
 import homeController from './controllers/home';
 import mongoose from 'mongoose';
 import occurrencesRouter from './routes/occurrences';
+import usersRouter from './routes/users';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 app.use('/occurrences', occurrencesRouter);
+app.use('/users', usersRouter);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log('Saude em Foco API running at port 5000...');
