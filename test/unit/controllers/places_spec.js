@@ -40,11 +40,5 @@ describe('places controller', () => {
       callback(fakeGoogleResponse);
       sinon.assert.calledWith(res.json, 'fake google results');
     });
-
-    // it('return google results', () => {
-    //   controller.get({ location: '49.250964,-123.102192', radius: 10000 }, res);
-    //
-    //   sinon.assert.calledWith(res.json, ['occurrence1', 'occurrence2']);
-    // });
   });
 });
