@@ -26,8 +26,11 @@ describe('places controller', () => {
     });
 
     it('creates node google place object', () => {
-      controller.get('', res);
+      controller.get({ params: { lng: 123, lat:456  }}, res);
       const callback = fakePromise.then.getCall(0).args[0];
+
+      sinon.assert.calledWith(fakeGooglePlace.nearbySearch, sinon.match({ location: '123,456' }));
+
       const fakeGoogleResponse = {
         body: {
           results: 'fake google results'

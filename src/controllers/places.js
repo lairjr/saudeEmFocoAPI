@@ -5,8 +5,9 @@ const placesController = (googlePlaces) => {
 };
 
 const get = (googlePlaces) => (req, res) => {
+  const location = `${req.params.lng},${req.params.lat}`;
   const params = {
-    location: '-30.0573828,-51.1806058',
+    location,
     radius: 1000,
     type: ['hospital']
   };
