@@ -56,7 +56,7 @@ describe('occurrences controller', () => {
       sinon.assert.called(returnedMock.save);
 
       const callback = fakePromise.then.getCall(0).args[0];
-      callback(null);
+      callback();
 
       sinon.assert.calledWith(res.sendStatus, 200);
     });
