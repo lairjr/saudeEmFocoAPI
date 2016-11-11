@@ -10,5 +10,6 @@ distance.apiKey = process.env.GOOGLE_API_KEY;
 const controller = placesController(places, distance, PlacesDb);
 
 router.get('/:lng/:lat', controller.get);
+router.post('/', controller.post);
 
 export default router;

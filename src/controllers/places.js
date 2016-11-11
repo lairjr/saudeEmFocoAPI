@@ -1,7 +1,30 @@
 const placesController = (googlePlaces, distance, dbModel) => {
   return {
-    get: get(googlePlaces, distance, dbModel)
+    get: get(googlePlaces, distance, dbModel),
+    post: post(dbModel)
   };
+};
+
+const post = (dbModel) => (req, res) => {
+  const findObject = {
+    googleId: req.body.googleId
+  };
+
+  const updateObject = {
+    $push: {
+      waitingTimeReports: req.body.waitingTime
+    }
+  };
+
+  const updatePromise = dbModel.update(findObject, updateObject);
+
+  updatePromise.then((m) => {
+      res.sendStatus(200);
+    },
+    (e) => {
+      res.sendStatus(400);
+    }
+  );
 };
 
 const get = (googlePlaces, distance, dbModel) => (req, res) => {
