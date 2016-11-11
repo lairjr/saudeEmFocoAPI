@@ -4,13 +4,13 @@
   "description": "Saude em foco REST API",
   "main": "index.js",
   "scripts": {
-    "start": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco babel-node src/app.js",
-    "debug": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco babel-node debug src/app.js",
+    "start": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco GOOGLE_API_KEY=AIzaSyDslrUNBlR4yqDLLdAvgdqfvyIMtjee4fQ babel-node src/app.js",
+    "debug": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco GOOGLE_API_KEY=AIzaSyDslrUNBlR4yqDLLdAvgdqfvyIMtjee4fQ babel-node debug src/app.js",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
     "test": "onchange 'src/**/*.js' 'test/unit/**/*.js' -i -- npm run unit-test",
     "unit-test": "mocha ./test/unit/**/*.js --compilers js:babel-register",
-    "contract-test": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco mocha ./test/contract/**/*.js --compilers js:babel-register"
+    "contract-test": "MONGODB_URI=mongodb://saudeemfocoadmin:root@ds153815.mlab.com:53815/saudeemfoco GOOGLE_API_KEY=AIzaSyDslrUNBlR4yqDLLdAvgdqfvyIMtjee4fQ mocha ./test/contract/**/*.js --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.0.0",
+    "node-googleplaces": "^0.1.2",
     "onchange": "^2.5.0",
     "sinon": "^1.17.5",
     "supertest": "^2.0.0"
