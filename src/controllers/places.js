@@ -1,10 +1,10 @@
-const placesController = (googlePlaces) => {
+const placesController = (googlePlaces, distance) => {
   return {
-    get: get(googlePlaces)
+    get: get(googlePlaces, distance)
   };
 };
 
-const get = (googlePlaces) => (req, res) => {
+const get = (googlePlaces, distance) => (req, res) => {
   const geoLocation = {
     lng: req.params.lng,
     lat: req.params.lat
@@ -17,17 +17,36 @@ const get = (googlePlaces) => (req, res) => {
   };
 
   googlePlaces.nearbySearch(params).then((response) => {
-    const places = response.body.results.map(addPlaceDuration(geoLocation));
-    res.json(places);
+    const searchedPlaces = response.body.results;
+    const placesLocations = searchedPlaces.map(getLocation);
+    const distanceParams = {
+      origin: location,
+      destinations: placesLocations
+    };
+
+    distance.get(distanceParams, (err, distances) => {
+      if (err) return res.json(searchedPlaces);
+
+      const places = searchedPlaces.map(addPlaceDuration(distances));
+      return res.json(places);
+    });
   });
 };
 
-const addPlaceDuration = (geoLocation) => (place) => {
-  const transportDuration = 26981;
+const addPlaceDuration = (distances) => (place, index) => {
+  const distance = distances[index];
+  const transportDuration = distance ? distance.durationValue : -1;
+  const distanceMeasure = distance ? distance.distance : '';
+
   return {
     ...place,
+    distanceMeasure,
     transportDuration
   };
+};
+
+const getLocation = (place) => {
+  return place.vicinity;
 };
 
 export default placesController;
