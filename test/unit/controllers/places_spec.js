@@ -23,10 +23,14 @@ describe('places controller', () => {
 
     const fakeGoogleDistance = {
       get: sinon.stub()
-    }
+    };
+
+    const fakePlacesDb = {
+      find: sinon.spy()
+    };
 
     before(() => {
-      controller = placesController(fakeGooglePlace, fakeGoogleDistance);
+      controller = placesController(fakeGooglePlace, fakeGoogleDistance, fakePlacesDb);
     });
 
     it('creates node google place object', () => {
@@ -61,6 +65,8 @@ describe('places controller', () => {
       };
 
       callback(fakeGoogleResponse);
+      const dbCallback = fakePlacesDb.find.getCall(0).args[1];
+      dbCallback(null, []);
       const distanceCallback = fakeGoogleDistance.get.getCall(0).args[1];
       distanceCallback(null, []);
       sinon.assert.calledWith(res.json, [ sinon.match({ id: 1, }), sinon.match({ id: 2 }) ]);
@@ -98,6 +104,8 @@ describe('places controller', () => {
       };
 
       callback(fakeGoogleResponse);
+      const dbCallback = fakePlacesDb.find.getCall(0).args[1];
+      dbCallback(null, []);
       const distanceCallback = fakeGoogleDistance.get.getCall(0).args[1];
       distanceCallback(null, [ { durationValue: 12 }, { durationValue: 13 } ]);
       sinon.assert.calledWith(res.json, [ sinon.match({ transportDuration: 12 }), sinon.match({ transportDuration: 13 }) ]);
