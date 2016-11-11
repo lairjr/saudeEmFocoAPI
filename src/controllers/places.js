@@ -1,10 +1,10 @@
-const placesController = (googlePlaces, distance) => {
+const placesController = (googlePlaces, distance, dbModel) => {
   return {
-    get: get(googlePlaces, distance)
+    get: get(googlePlaces, distance, dbModel)
   };
 };
 
-const get = (googlePlaces, distance) => (req, res) => {
+const get = (googlePlaces, distance, dbModel) => (req, res) => {
   const geoLocation = {
     lng: req.params.lng,
     lat: req.params.lat
@@ -16,21 +16,29 @@ const get = (googlePlaces, distance) => (req, res) => {
     type: ['hospital']
   };
 
-  googlePlaces.nearbySearch(params).then((response) => {
-    const searchedPlaces = response.body.results;
-    const placesLocations = searchedPlaces.map(getLocation);
-    const distanceParams = {
-      origin: location,
-      destinations: placesLocations
-    };
+  googlePlaces.nearbySearch(params).then(handleGooglePlacesResponse(res, distance, dbModel, location));
+};
 
-    distance.get(distanceParams, (err, distances) => {
-      if (err) return res.json(searchedPlaces);
+const handleGooglePlacesResponse = (res, distance, dbModel, location) => (response) => {
+  const searchedPlaces = response.body.results;
+  const placesLocations = searchedPlaces.map(getLocation);
+  const placesIds = searchedPlaces.map(getPlaceId);
+  const distanceParams = {
+    origin: location,
+    destinations: placesLocations
+  };
 
-      const places = searchedPlaces.map(addPlaceDuration(distances));
-      return res.json(places);
-    });
-  });
+  distance.get(distanceParams, handleDistanceResponse(res, searchedPlaces));
+};
+
+const handleDistanceResponse = (res, searchedPlaces) => (error, distances) => {
+  if (error) {
+    res.json(searchedPlaces);
+  }
+
+  const places = searchedPlaces.map(addPlaceDuration(distances));
+
+  res.json(places);
 };
 
 const addPlaceDuration = (distances) => (place, index) => {
@@ -45,8 +53,8 @@ const addPlaceDuration = (distances) => (place, index) => {
   };
 };
 
-const getLocation = (place) => {
-  return place.vicinity;
-};
+const getLocation = (place) => (place.vicinity);
+
+const getPlaceId = (place) => (place.place_id);
 
 export default placesController;
