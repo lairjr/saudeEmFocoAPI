@@ -33,12 +33,28 @@ describe('places controller', () => {
 
       const fakeGoogleResponse = {
         body: {
-          results: 'fake google results'
+          results: [{ id: 1 }, { id: 2 }]
         }
       };
 
       callback(fakeGoogleResponse);
-      sinon.assert.calledWith(res.json, 'fake google results');
+      sinon.assert.calledWith(res.json, [ sinon.match({ id: 1 }), sinon.match({ id: 2 }) ]);
+    });
+
+    it('returns places with transportDuration', () => {
+      controller.get({ params: { lng: 123, lat:456  }}, res);
+      const callback = fakePromise.then.getCall(0).args[0];
+
+      sinon.assert.calledWith(fakeGooglePlace.nearbySearch, sinon.match({ location: '123,456' }));
+
+      const fakeGoogleResponse = {
+        body: {
+          results: [{ id: 1 }, { id: 2 }]
+        }
+      };
+
+      callback(fakeGoogleResponse);
+      sinon.assert.calledWith(res.json, [ sinon.match({ transportDuration: 26981 }), sinon.match({ transportDuration: 26981 }) ]);
     });
   });
 });

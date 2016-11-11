@@ -5,7 +5,11 @@ const placesController = (googlePlaces) => {
 };
 
 const get = (googlePlaces) => (req, res) => {
-  const location = `${req.params.lng},${req.params.lat}`;
+  const geoLocation = {
+    lng: req.params.lng,
+    lat: req.params.lat
+  }
+  const location = `${geoLocation.lng},${geoLocation.lat}`;
   const params = {
     location,
     radius: 1000,
@@ -13,8 +17,17 @@ const get = (googlePlaces) => (req, res) => {
   };
 
   googlePlaces.nearbySearch(params).then((response) => {
-    res.json(response.body.results);
+    const places = response.body.results.map(addPlaceDuration(geoLocation));
+    res.json(places);
   });
+};
+
+const addPlaceDuration = (geoLocation) => (place) => {
+  const transportDuration = 26981;
+  return {
+    ...place,
+    transportDuration
+  };
 };
 
 export default placesController;
