@@ -64,7 +64,7 @@ const addWaitingTime = (placesDbRecords) => (place) => {
   const dbRecord = placesDbRecords.find(filterByGoogleId(place.place_id));
 
   if (dbRecord) {
-    const totalWaitingTime = dbRecord ? dbRecord.waitingTimeReports.reduce(sumWaitingTime) : -1
+    const totalWaitingTime = dbRecord.waitingTimeReports.reduce(sumWaitingTime);
     const waitingTime = Math.round(totalWaitingTime / dbRecord.waitingTimeReports.length);
 
     return {
