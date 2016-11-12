@@ -63,12 +63,14 @@ const handleDatabaseQuery = (res, distance, searchedPlaces, location) => (error,
 
 const handleDistanceResponse = (res, searchedPlaces, placesDbRecords) => (error, distances) => {
   if (error) {
-    res.json(searchedPlaces);
+    const placesWithWaitingTime = searchedPlaces.map(addWaitingTime(placesDbRecords));
+
+    return res.json(placesWithWaitingTime);
   }
 
   const places = searchedPlaces.map(addPlaceDuration(distances)).map(addWaitingTime(placesDbRecords));
 
-  res.json(places);
+  return res.json(places);
 };
 
 const addPlaceDuration = (distances) => (place, index) => {
