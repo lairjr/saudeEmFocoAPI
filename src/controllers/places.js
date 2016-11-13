@@ -35,15 +35,16 @@ const get = (googlePlaces, distance, dbModel) => (req, res) => {
   const location = `${geoLocation.lng},${geoLocation.lat}`;
   const params = {
     location,
-    radius: 1000,
-    type: ['hospital']
+    radius: 10000,
+    type: ['hospital'],
+    rankby: 'prominence'
   };
 
   googlePlaces.nearbySearch(params).then(handleGooglePlacesResponse(res, distance, dbModel, location));
 };
 
 const handleGooglePlacesResponse = (res, distance, dbModel, location) => (response) => {
-  const searchedPlaces = response.body.results;
+  const searchedPlaces = response.body.results.filter(filterByGoodHospitals);
   const placesIds = searchedPlaces.map(getPlaceId);
   const queryObject = { 'googleId': { $in: placesIds } };
 
@@ -111,5 +112,13 @@ const getPlaceId = (place) => (place.place_id);
 const filterByGoogleId = (googleId) => (dbRecord) => (dbRecord.googleId === googleId);
 
 const sumWaitingTime = (acc, current) => (acc += current);
+
+const filterByGoodHospitals = (place) => {
+  return place.rating && !hasBadPlaceType(place.types);
+};
+
+const hasBadPlaceType = (types) => {
+  return types && types.includes('doctor');
+};
 
 export default placesController;

@@ -49,7 +49,8 @@ describe('places controller', () => {
                   lat: 1,
                   lng: 2
                 }
-              }
+              },
+              rating: 4
             },
             {
               id: 2,
@@ -58,7 +59,8 @@ describe('places controller', () => {
                   lat: 1,
                   lng: 2
                 }
-              }
+              },
+              rating: 4
             }
           ]
         }
