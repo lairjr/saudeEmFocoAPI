@@ -48,7 +48,6 @@ const handleGooglePlacesResponse = (res, distance, dbModel, location) => (respon
   const placesIds = searchedPlaces.map(getPlaceId);
   const queryObject = { 'googleId': { $in: placesIds } };
 
-
   dbModel.find(queryObject, handleDatabaseQuery(res, distance, searchedPlaces, location));
 };
 
@@ -64,6 +63,7 @@ const handleDatabaseQuery = (res, distance, searchedPlaces, location) => (error,
 
 const handleDistanceResponse = (res, searchedPlaces, placesDbRecords) => (error, distances) => {
   if (error) {
+    console.log(error);
     const placesWithWaitingTime = searchedPlaces.map(addWaitingTime(placesDbRecords));
 
     return res.json(placesWithWaitingTime);
@@ -105,7 +105,7 @@ const addWaitingTime = (placesDbRecords) => (place) => {
   };
 };
 
-const getLocation = (place) => (place.vicinity);
+const getLocation = (place) => (`place_id:${place.place_id}`);
 
 const getPlaceId = (place) => (place.place_id);
 
