@@ -1,7 +1,8 @@
 const usersController = (dbModel) => {
   return {
     get: get(dbModel),
-    post: post(dbModel)
+    getByUsername: getByUsername(dbModel),
+    put: put(dbModel)
   };
 };
 
@@ -11,7 +12,7 @@ const get = (dbModel) => (req, res) => {
   });
 };
 
-const post = (dbModel) => (req, res) => {
+const put = (dbModel) => (req, res) => {
   const model = new dbModel(req.body);
   const savePromise = model.save();
 
@@ -22,6 +23,20 @@ const post = (dbModel) => (req, res) => {
       res.sendStatus(400);
     }
   );
+};
+
+const getByUsername = (dbModel) => (req, res) => {
+  const query = {
+    name: req.params.username
+  };
+
+  const findPromise = dbModel.findOne(query);
+  findPromise.then((m) => {
+    if (m) {
+      return res.json(m);
+    }
+    return res.sendStatus(404);
+  });
 };
 
 export default usersController;

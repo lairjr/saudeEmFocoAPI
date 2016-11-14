@@ -1,11 +1,11 @@
-const placesController = (googlePlaces, distance, dbModel) => {
+const placesController = (googlePlaces, distance, dbModel, userDbModel) => {
   return {
     get: get(googlePlaces, distance, dbModel),
-    post: post(dbModel)
+    post: post(dbModel, userDbModel)
   };
 };
 
-const post = (dbModel) => (req, res) => {
+const post = (dbModel, userDbModel) => (req, res) => {
   const findObject = {
     googleId: req.body.googleId
   };
@@ -19,10 +19,17 @@ const post = (dbModel) => (req, res) => {
   const updatePromise = dbModel.update(findObject, updateObject, { upsert: true });
 
   updatePromise.then((m) => {
-      res.sendStatus(200);
+      const query = { name: req.params.username };
+      const updateData = { $inc: { reportNumber: 10 } }
+      const userPromise = userDbModel.update(query, updateData);
+      userPromise.then((model) => {
+        return res.sendStatus(200);
+      }, (e) => {
+        return res.sendStatus(400);
+      });
     },
     (e) => {
-      res.sendStatus(400);
+      return res.sendStatus(400);
     }
   );
 };
