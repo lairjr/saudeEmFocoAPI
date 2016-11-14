@@ -16,7 +16,7 @@ const post = (dbModel) => (req, res) => {
     }
   };
 
-  const updatePromise = dbModel.update(findObject, updateObject);
+  const updatePromise = dbModel.update(findObject, updateObject, { upsert: true });
 
   updatePromise.then((m) => {
       res.sendStatus(200);
