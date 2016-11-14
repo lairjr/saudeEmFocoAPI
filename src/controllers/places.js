@@ -16,8 +16,6 @@ const post = (dbModel, userDbModel) => (req, res) => {
     }
   };
 
-  console.log();
-
   const updatePromise = dbModel.update(findObject, updateObject, { upsert: true });
 
   updatePromise.then((m) => {

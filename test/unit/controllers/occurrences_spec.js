@@ -44,19 +44,25 @@ describe('occurrences controller', () => {
 
     const occurrencesDb = sinon.stub().returns(returnedMock);
 
+    const userDb = {
+      update: sinon.stub().returns(fakePromise)
+    };
+
     let controller;
 
     before(() => {
-      controller = occurrencesController(occurrencesDb);
+      controller = occurrencesController(occurrencesDb, userDb);
     });
 
     it('saves in the database a record', () => {
-      controller.post({ body: occurrence }, res);
+      controller.post({ body: occurrence, params: { username: 'username' } }, res);
       sinon.assert.calledWith(occurrencesDb, occurrence);
       sinon.assert.called(returnedMock.save);
 
       const callback = fakePromise.then.getCall(0).args[0];
       callback();
+      const userDbCallback = fakePromise.then.getCall(1).args[0];
+      userDbCallback();
 
       sinon.assert.calledWith(res.sendStatus, 200);
     });

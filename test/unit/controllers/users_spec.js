@@ -51,7 +51,7 @@ describe('user controller', () => {
     });
 
     it('saves in the database a record', () => {
-      controller.post({ body: user }, res);
+      controller.put({ body: user }, res);
       sinon.assert.calledWith(userDb, user);
       sinon.assert.called(returnedMock.save);
 
