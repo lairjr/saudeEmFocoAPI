@@ -1,6 +1,7 @@
 const occurrencesController = (dbModel, userDbModel) => {
   return {
     get: get(dbModel),
+    getById: getById(dbModel),
     post: post(dbModel, userDbModel)
   };
 };
@@ -8,6 +9,12 @@ const occurrencesController = (dbModel, userDbModel) => {
 const get = (dbModel) => (req, res) => {
   dbModel.find((e, results) => {
     res.json(results);
+  });
+};
+
+const getById = (dbModel) => (req, res) => {
+  dbModel.findById(req.params.id, (e, result) => {
+    res.json(result);
   });
 };
 
