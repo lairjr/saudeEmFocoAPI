@@ -2,7 +2,8 @@ const occurrencesController = (dbModel, userDbModel) => {
   return {
     get: get(dbModel),
     getById: getById(dbModel),
-    post: post(dbModel, userDbModel)
+    post: post(dbModel, userDbModel),
+    postReview: postReview(dbModel)
   };
 };
 
@@ -15,6 +16,16 @@ const get = (dbModel) => (req, res) => {
 const getById = (dbModel) => (req, res) => {
   dbModel.findById(req.params.id, (e, result) => {
     res.json(result);
+  });
+};
+
+const postReview = (dbModel) => (req, res) => {
+  const updateData = { $set: { status: 'REVIEW' } };
+  const occurrencePromise = dbModel.findByIdAndUpdate(req.params.id, updateData);
+  occurrencePromise.then((model) => {
+    return res.sendStatus(200);
+  }, (e) => {
+    return res.sendStatus(400);
   });
 };
 

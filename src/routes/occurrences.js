@@ -8,6 +8,7 @@ const controller = ocurrencesController(OccurrencesDb, UsersDb);
 
 router.get('/', controller.get);
 router.get('/:id', controller.getById);
+router.post('/:id/review', controller.postReview);
 router.post('/:username', controller.post);
 
 export default router;
