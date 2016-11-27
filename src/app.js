@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import occurrencesRouter from './routes/occurrences';
 import placesRouter from './routes/places';
 import usersRouter from './routes/users';
+import citiesRouter from './routes/cities';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/occurrences', occurrencesRouter);
 app.use('/users', usersRouter);
 app.use('/places', placesRouter);
+app.use('/cities', citiesRouter);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log('Saude em Foco API running at port 5000...');
