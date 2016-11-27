@@ -1,8 +1,8 @@
-const occurrencesController = (dbModel, userDbModel) => {
+const occurrencesController = (dbModel, userDbModel, geocoder) => {
   return {
     get: get(dbModel),
     getById: getById(dbModel),
-    post: post(dbModel, userDbModel),
+    post: post(dbModel, userDbModel, geocoder),
     postReview: postReview(dbModel)
   };
 };
@@ -29,24 +29,36 @@ const postReview = (dbModel) => (req, res) => {
   });
 };
 
-const post = (dbModel, userDbModel) => (req, res) => {
+const post = (dbModel, userDbModel, geocoder) => (req, res) => {
   const model = new dbModel(req.body);
-  const savePromise = model.save();
+  const getQuery = `${model.location.coordinates[0]},${model.location.coordinates[1]}`;
 
-  savePromise.then((m) => {
-      const query = { name: req.params.username };
-      const updateData = { $inc: { reportNumber: 5 } }
-      const userPromise = userDbModel.update(query, updateData);
-      userPromise.then((model) => {
-        return res.sendStatus(200);
-      }, (e) => {
+  geocoder.find(getQuery, (err, googleResponse) => {
+    const currentCity = findCity(googleResponse);
+
+    model.city = currentCity;
+
+    const savePromise = model.save();
+
+    savePromise.then((m) => {
+        const query = { name: req.params.username };
+        const updateData = { $inc: { reportNumber: 5 } }
+        const userPromise = userDbModel.update(query, updateData);
+        userPromise.then((model) => {
+          return res.sendStatus(200);
+        }).catch((e) => {
+          return res.sendStatus(400);
+        });
+      },
+      (e) => {
         return res.sendStatus(400);
-      });
-    },
-    (e) => {
-      return res.sendStatus(400);
-    }
-  );
+      }
+    );
+  });
+};
+
+const findCity = (googleResponse) => {
+  return googleResponse[0].administrative_area_level_2.long_name;
 };
 
 export default occurrencesController;
