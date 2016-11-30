@@ -11,6 +11,7 @@ const router = express.Router();
 const controller = ocurrencesController(OccurrencesDb, UsersDb, geo);
 
 router.get('/', controller.get);
+router.get('/distance/:lat/:lng', controller.getWithDistance);
 router.get('/:id', controller.getById);
 router.post('/:id/review', controller.postReview);
 router.post('/:username', controller.post);

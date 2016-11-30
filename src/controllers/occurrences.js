@@ -1,6 +1,9 @@
+import geolib from 'geolib';
+
 const occurrencesController = (dbModel, userDbModel, geocoder) => {
   return {
     get: get(dbModel),
+    getWithDistance: getWithDistance(dbModel),
     getById: getById(dbModel),
     post: post(dbModel, userDbModel, geocoder),
     postReview: postReview(dbModel)
@@ -9,8 +12,25 @@ const occurrencesController = (dbModel, userDbModel, geocoder) => {
 
 const get = (dbModel) => (req, res) => {
   dbModel.find((e, results) => {
-    res.json(results);
+    return res.json(results);
   });
+};
+
+const getWithDistance = (dbModel) => (req, res) => {
+  dbModel.find((e, results) => {
+    const occurrencesWithDistance = results.map(addDistance(req));
+
+    return res.json(occurrencesWithDistance);
+  });
+};
+
+const addDistance = (req) => (occurrence) => {
+  const distance = geolib.getDistance({ latitude: req.params.lat, longitude: req.params.lng }, { latitude: occurrence.location.coordinates[0], longitude: occurrence.location.coordinates[1] });
+
+  return {
+    ...occurrence._doc,
+    distance
+  };
 };
 
 const getById = (dbModel) => (req, res) => {

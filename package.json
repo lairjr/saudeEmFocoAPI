@@ -38,6 +38,7 @@
     "babel-register": "^6.11.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "geolib": "^2.0.22",
     "google-distance": "^1.0.1",
     "google-geocoder": "^0.1.4",
     "mongoose": "^4.5.8",
